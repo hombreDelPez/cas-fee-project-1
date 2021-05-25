@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- TODO: Change page title on server according to trigger -->
+  <title>Create or Edit Note | Noting Matters!</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js" integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU=" crossorigin="anonymous" defer></script>
+  <script src="scripts/index.js" type="module"></script>
+
+  <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+  <main>
+    <!-- TODO: Change page title on server according to trigger -->
+    <h1>Create or Edit Note</h1>
+
+    <form>
+      <div class="form__title">
+        <label for="title">Title</label>
+        <input id="title" type="text" name="title" />
+      </div>
+
+      <div class="form__description">
+        <label for="description">Description</label>
+        <textarea id="description" name="description"></textarea>
+      </div>
+
+      <!--
+        TODO: Implement "bolt" rating like this: https://stackoverflow.com/a/38604296
+      -->
+      <div class="form__importance">
+        <label for="importance">Importance</label>
+        <select name="importance" id="importance">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+
+      <div class="form__due-date">
+        <label for="duedate">Duedate</label>
+        <input id="duedate" type="date" name="duedate" />
+      </div>
+
+      <div class="form__buttons">
+        <button type="submit">Send</button>
+        <button type="button">Cancel</button>
+      </div>
+    </form>
+  </main>
+<footer>
+  <p>&copy; Manuel Fischer | FH OST | FEE 2021/2022</p>
+</footer>
+</body>
+</html>
