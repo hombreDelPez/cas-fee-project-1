@@ -1,3 +1,110 @@
 * {
     box-sizing: border-box;
 }
+
+:root {
+    --background-color: #f2f0f0;
+    --emphasize-color: #c5d0e3;
+    --button-color: #5792d9;
+    --active-color: #57d5d9;
+    --font-color: #112d4e;
+}
+
+.dark-theme {
+    --background-color: #222831;
+    --emphasize-color: #393e46;
+    --button-color: #00adb5;
+    --active-color: #008eb5;
+    --font-color: #eeeeee;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--font-color);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.btn {
+    background-color: var(--button-color);
+    color: var(--font-color);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    border: 0px;
+    box-shadow: 0.2rem 0.3rem var(--emphasize-color);
+    padding: 0.3rem;
+}
+
+.btn:hover {
+    background-color: var(--active-color);
+}
+
+html {
+    font-size: 100%;
+}
+
+.page-intro {
+    text-align: center;
+}
+
+.page-intro > h1 {
+    margin-bottom: 0.5rem;
+}
+
+.page-intro > p {
+    font-size: 0.8rem;
+    font-style: italic;
+    margin-top: 0px;
+}
+
+.app-btns {
+    display: flex;
+    margin: 1.5rem;
+}
+
+.sort-filter-buttons .btn:nth-child(2),
+.sort-filter-buttons .btn:nth-child(3),
+.form__buttons .btn:last-child {
+    margin-left: 1rem;
+}
+
+.header-buttons > select, .sort-filter-buttons .btn:last-child {
+    margin-left: auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+.form-div {
+    display: flex;
+    width: 60%;
+    margin-bottom: 1.5rem;
+}
+
+.form-div label {
+    width: 35%;
+}
+
+.form-div .form-input {
+    width: 65%;
+}
+
+.form__description {
+    height: 8rem;
+}
+
+.form__buttons {
+    justify-content: flex-end;
+}
+
+footer {
+    text-align: center;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    background-color: var(--emphasize-color);
+    width: 100%;
+}
