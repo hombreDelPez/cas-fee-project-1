@@ -32,11 +32,14 @@
 
   <main>
     <div class="app-btns sort-filter-buttons">
-        <button class="btn">By finish Date</button>
-        <button class="btn">By created Date</button>
-        <button class="btn">By Importance</button>
-  
-        <button class="btn">Show finished</button>
+      <div class="sort-buttons">
+        <button id="sort-by-finish-date" class="btn">By finish Date</button>
+        <button id="sort-by-created-date" class="btn">By created Date</button>
+        <button id="sort-by-importance" class="btn">By Importance</button>
+      </div>
+      <div class="filter-buttons">
+        <button id="show-finished" class="btn">Show finished</button>
+      </div>
     </div>
 
     <div id="notes-container"></div>

@@ -34,12 +34,12 @@ body {
     padding: 0.3rem;
 }
 
-.btn:hover {
+.btn:hover, .btn-active {
     background-color: var(--active-color);
 }
 
 html {
-    font-size: 100%;
+    font-size: 110%;
 }
 
 .page-intro {
@@ -67,7 +67,7 @@ html {
     margin-left: 1rem;
 }
 
-.header-buttons > select, .sort-filter-buttons .btn:last-child {
+.header-buttons > select, .filter-buttons {
     margin-left: auto;
 }
 
@@ -107,4 +107,20 @@ footer {
     bottom: 0px;
     background-color: var(--emphasize-color);
     width: 100%;
+}
+
+.sort-asc::after {
+    content: "  \21E7";
+}
+
+.sort-desc::after {
+    content: "  \21E9";
+}
+
+#show-finished::before {
+    content: "\2610  "
+}
+
+#show-finished.btn-active::before {
+    content: "\2611  "
 }

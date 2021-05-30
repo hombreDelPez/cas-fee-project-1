@@ -33,3 +33,47 @@ function initializeTheme() {
 }
 
 initializeTheme();
+
+
+// Sort buttons
+
+const sortButtonsContainer = document.querySelector('.sort-buttons');
+const sortButtons = Array.from(document.querySelectorAll('.sort-buttons .btn'));
+
+const buttonActiveClass = 'btn-active';
+const sortButtonAscClass = 'sort-asc';
+const sortButtonDesClass = 'sort-desc';
+
+sortButtonsContainer?.addEventListener('click', (event) => {
+    handleSortClickEvent(event);
+})
+
+function handleSortClickEvent(event) {
+    const clickedElem = event.target;
+
+    if (clickedElem.classList.contains(buttonActiveClass)) {
+        if (clickedElem.classList.contains(sortButtonDesClass)) {
+            clickedElem.classList.toggle(sortButtonAscClass);
+            clickedElem.classList.toggle(sortButtonDesClass);
+        } else {
+            clickedElem.classList.remove(buttonActiveClass, sortButtonAscClass, sortButtonDesClass);
+        }
+    } else {
+        for (let sortButton of sortButtons) {
+            if (sortButton.id === clickedElem.id) {
+                clickedElem.classList.add(buttonActiveClass, sortButtonDesClass);
+            } else {
+                sortButton.classList.remove(buttonActiveClass, sortButtonAscClass, sortButtonDesClass);
+            }
+        }
+    }
+}
+
+
+// Filter buttons
+
+const showFinishedButton = document.querySelector('#show-finished');
+
+showFinishedButton?.addEventListener('click', (event) => {
+    event.target.classList.toggle(buttonActiveClass);
+})
