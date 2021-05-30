@@ -15,7 +15,7 @@
     --emphasize-color: #393e46;
     --button-color: #00adb5;
     --active-color: #006db5;
-    --font-color: #eeeeee;
+    --font-color: #eee;
 }
 
 body {
@@ -34,7 +34,8 @@ body {
     padding: 0.3rem;
 }
 
-.btn:hover, .btn-active {
+.btn:hover,
+.btn-active {
     background-color: var(--active-color);
 }
 
@@ -67,7 +68,8 @@ html {
     margin-left: 1rem;
 }
 
-.header-buttons > select, .filter-buttons {
+.header-buttons > select,
+.filter-buttons {
     margin-left: auto;
 }
 
@@ -118,9 +120,52 @@ footer {
 }
 
 #show-finished::before {
-    content: "\2610  "
+    content: "\2610  ";
 }
 
 #show-finished.btn-active::before {
-    content: "\2611  "
+    content: "\2611  ";
 }
+
+#notes-container {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
+.note {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: 1fr 2fr;
+    font-size: 0.85rem;
+}
+
+.note:nth-child(odd) {
+    background-color: var(--emphasize-color);
+}
+
+.note:nth-child(even) {
+    /* Todo: draw border shadows */
+}
+
+.note__title-importance {
+    display: flex;
+}
+
+.note__title-importance > div:last-child {
+    margin-left: auto;
+}
+
+.note__description textarea {
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+}
+
+
+/* debugging 
+div {
+    border: 2px;
+    border-style: solid;
+    border-color: red;
+}
+*/
