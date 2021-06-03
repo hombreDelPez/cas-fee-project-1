@@ -1,6 +1,4 @@
-* {
-    box-sizing: border-box;
-}
+/* color definitions */
 
 :root {
     --background-color: #f2f0f0;
@@ -20,29 +18,30 @@
     --font-color: #eee;
 }
 
+/* base styles */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 110%;
+}
+
 body {
     background-color: var(--background-color);
     color: var(--font-color);
     font-family: 'Montserrat', sans-serif;
 }
 
-.btn {
-    background-color: var(--button-color);
-    color: var(--font-color);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    border: 0px;
-    box-shadow: 0.2rem 0.3rem 0.5rem var(--shadow-color);
-    padding: 0.3rem;
-}
-
-.btn:hover,
-.btn-active {
-    background-color: var(--active-color);
-}
-
-html {
-    font-size: 110%;
+footer {
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    color: var(--background-color);
+    background-color: var(--font-color);
+    width: 100%;
 }
 
 .page-intro {
@@ -56,8 +55,34 @@ html {
 .page-intro > p {
     font-size: 0.8rem;
     font-style: italic;
-    margin-top: 0px;
+    margin-top: 0;
 }
+
+.btn {
+    background-color: var(--button-color);
+    color: var(--font-color);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    border: 0;
+    box-shadow: 0.2rem 0.3rem 0.5rem var(--shadow-color);
+    padding: 0.3rem;
+}
+
+.btn:hover,
+.btn-active {
+    background-color: var(--active-color);
+}
+
+.bold {
+    font-weight: bold;
+}
+
+#notes-container {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+
+/* sorting and filtering */
 
 .app-btns {
     display: flex;
@@ -74,6 +99,87 @@ html {
 .filter-buttons {
     margin-left: auto;
 }
+
+.sort-asc::after {
+    content: "  \21E7";
+}
+
+.sort-desc::after {
+    content: "  \21E9";
+}
+
+#show-finished::before {
+    content: "\2610  ";
+}
+
+#show-finished.btn-active::before {
+    content: "\2611  ";
+}
+
+/* note */
+
+.note {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: 1fr 2fr;
+    font-size: 0.85rem;
+    padding: 0.5rem;
+    box-shadow: 0.2rem 0.3rem 0.5rem var(--shadow-color);
+    margin-bottom: 1rem;
+}
+
+.note:nth-child(odd) {
+    background-color: var(--emphasize-color);
+}
+
+.note button {
+    font-size: inherit;
+}
+
+.note__finish-created > div {
+    display: flex;
+    align-items: center;
+}
+
+.note__finish-created > p {
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+.note__title-importance {
+    display: flex;
+}
+
+.note__title-importance > div:last-child {
+    margin-left: auto;
+}
+
+.note__title-importance > div:last-child p {
+    font-size: 1.5em;
+    margin-block-start: 0.35em;
+    margin-block-end: 0.35em;
+}
+
+.note__edit {
+    grid-column: 3 / span 1;
+    grid-row: 1 / span 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.note__edit button {
+    padding: 1em;
+}
+
+.note__description textarea {
+    width: 100%;
+    height: 90%;
+    background-color: inherit;
+    resize: none;
+}
+
+/* edit form */
 
 form {
     display: flex;
@@ -103,107 +209,3 @@ form {
 .form__buttons {
     justify-content: flex-end;
 }
-
-footer {
-    text-align: center;
-    position: fixed;
-    left: 0px;
-    bottom: 0px;
-    color: var(--background-color);
-    background-color: var(--font-color);
-    width: 100%;
-}
-
-.sort-asc::after {
-    content: "  \21E7";
-}
-
-.sort-desc::after {
-    content: "  \21E9";
-}
-
-#show-finished::before {
-    content: "\2610  ";
-}
-
-#show-finished.btn-active::before {
-    content: "\2611  ";
-}
-
-#notes-container {
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
-}
-
-.note {
-    display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
-    grid-template-rows: 1fr 2fr;
-    font-size: 0.85rem;
-    padding: 0.5rem;
-    box-shadow: 0.2rem 0.3rem 0.5rem var(--shadow-color);
-    margin-bottom: 1rem;
-}
-
-.note:nth-child(odd) {
-    background-color: var(--emphasize-color);
-}
-
-.note button {
-    font-size: inherit;
-}
-
-.note__title-importance {
-    display: flex;
-}
-
-.note__title-importance > div:last-child {
-    margin-left: auto;
-}
-
-.note__title-importance > div:last-child p {
-    font-size: 1.5em;
-    margin-block-start: 0.35em;
-    margin-block-end: 0.35em;
-}
-
-.note__edit {
-    grid-column: 3 / span 1;
-    grid-row: 1 / span 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.note__edit button {
-    padding: 1em;
-}
-
-.note__finish-created > div {
-    display: flex;
-    align-items: center;
-}
-
-.note__finish-created > p {
-    font-size: 0.8em;
-    font-style: italic;
-}
-
-.note__description textarea {
-    width: 100%;
-    height: 90%;
-    background-color: inherit;
-    resize: none;
-}
-
-.bold {
-    font-weight: bold;
-}
-
-/* debugging
-div {
-    border: 2px;
-    border-style: solid;
-    border-color: red;
-}
-*/
