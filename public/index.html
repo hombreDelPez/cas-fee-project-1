@@ -45,7 +45,7 @@
     <div id="notes-container">
       <div class="note">
         <div class="note__due-date">
-          <p>Due Date: 06.06.2021</p>
+          <p>Due Date: <span class="bold">06.06.2021</span></p>
         </div>
         <div class="note__title-importance">
           <div>
@@ -55,15 +55,18 @@
             <p>&starf; &starf; &starf;</p>
           </div>
         </div>
-        <div class="note_edit">
+        <div class="note__edit">
           <button class="btn">Edit</button>
         </div>
         <div class="note__finish-created">
-          <p>&#9745; Finished (15.05.2021)</p>
+          <div>
+            <input type="checkbox">
+            <p>Finished (15.05.2021)</p>
+          </div>
           <p>Created Date: 05.05.2021</p>
         </div>
         <div class="note__description">
-          <textarea></textarea>
+          <textarea readonly></textarea>
         </div>
       </div>
     </div>

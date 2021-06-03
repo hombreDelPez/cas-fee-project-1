@@ -5,6 +5,7 @@
 :root {
     --background-color: #f2f0f0;
     --emphasize-color: #c5d0e3;
+    --shadow-color: #888889;
     --button-color: #5792d9;
     --active-color: #57d5d9;
     --font-color: #112d4e;
@@ -12,7 +13,8 @@
 
 .dark-theme {
     --background-color: #222831;
-    --emphasize-color: #393e46;
+    --emphasize-color: #57626c;
+    --shadow-color: #151515;
     --button-color: #00adb5;
     --active-color: #006db5;
     --font-color: #eee;
@@ -30,7 +32,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
     border: 0px;
-    box-shadow: 0.2rem 0.3rem var(--emphasize-color);
+    box-shadow: 0.2rem 0.3rem 0.5rem var(--shadow-color);
     padding: 0.3rem;
 }
 
@@ -107,7 +109,8 @@ footer {
     position: fixed;
     left: 0px;
     bottom: 0px;
-    background-color: var(--emphasize-color);
+    color: var(--background-color);
+    background-color: var(--font-color);
     width: 100%;
 }
 
@@ -137,14 +140,17 @@ footer {
     grid-template-columns: 1fr 3fr 1fr;
     grid-template-rows: 1fr 2fr;
     font-size: 0.85rem;
+    padding: 0.5rem;
+    box-shadow: 0.2rem 0.3rem 0.5rem var(--shadow-color);
+    margin-bottom: 1rem;
 }
 
 .note:nth-child(odd) {
     background-color: var(--emphasize-color);
 }
 
-.note:nth-child(even) {
-    /* Todo: draw border shadows */
+.note button {
+    font-size: inherit;
 }
 
 .note__title-importance {
@@ -155,14 +161,46 @@ footer {
     margin-left: auto;
 }
 
-.note__description textarea {
-    width: 100%;
-    height: 100%;
-    background-color: inherit;
+.note__title-importance > div:last-child p {
+    font-size: 1.5em;
+    margin-block-start: 0.35em;
+    margin-block-end: 0.35em;
 }
 
+.note__edit {
+    grid-column: 3 / span 1;
+    grid-row: 1 / span 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-/* debugging 
+.note__edit button {
+    padding: 1em;
+}
+
+.note__finish-created > div {
+    display: flex;
+    align-items: center;
+}
+
+.note__finish-created > p {
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+.note__description textarea {
+    width: 100%;
+    height: 90%;
+    background-color: inherit;
+    resize: none;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+/* debugging
 div {
     border: 2px;
     border-style: solid;
