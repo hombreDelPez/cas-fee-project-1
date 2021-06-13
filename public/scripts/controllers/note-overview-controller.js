@@ -16,20 +16,51 @@ const buttonActiveClass = 'btn-active';
 const sortButtonAscClass = 'sort-asc';
 const sortButtonDesClass = 'sort-desc';
 
+const sortByFinishDateId = 'sort-by-finish-date';
+const sortByCreateDateId = 'sort-by-create-date';
+const sortByImportanceId = 'sort-by-importance';
+
 function handleSortClickEvent(event) {
     const clickedButton = event.target;
-
+    // Button is already active
     if (clickedButton.classList.contains(buttonActiveClass)) {
+        // Sorting get switched to ascending
         if (clickedButton.classList.contains(sortButtonDesClass)) {
             clickedButton.classList.toggle(sortButtonAscClass);
             clickedButton.classList.toggle(sortButtonDesClass);
-        } else {
+            let sortFunc = null;
+
+            if (clickedButton.id === sortByFinishDateId) {
+                sortFunc = (a, b) => moment(a.finishDate) - moment(b.finishDate);
+            }
+            if (clickedButton.id === sortByCreateDateId) {
+                sortFunc = (a, b) => moment(a.createDate) - moment(b.createDate);
+            }
+            if (clickedButton.id === sortByImportanceId) {
+                sortFunc = (a, b) => a.importance - b.importance;
+            }
+            renderNotes(noteService.getNotes(sortFunc));
+        } else { // Sorting is cleared
             clickedButton.classList.remove(buttonActiveClass, sortButtonAscClass, sortButtonDesClass);
+            renderNotes(noteService.getNotes());
         }
-    } else {
+    } else { // Button is pressed for the first time
         sortButtons.forEach((el) => {
+            // Sorting gets switched to descending
             if (el.id === clickedButton.id) {
                 clickedButton.classList.add(buttonActiveClass, sortButtonDesClass);
+                let sortFunc = null;
+
+                if (clickedButton.id === sortByFinishDateId) {
+                    sortFunc = (a, b) => moment(b.finishDate) - moment(a.finishDate);
+                }
+                if (clickedButton.id === sortByCreateDateId) {
+                    sortFunc = (a, b) => moment(b.createDate) - moment(a.createDate);
+                }
+                if (clickedButton.id === sortByImportanceId) {
+                    sortFunc = (a, b) => b.importance - a.importance;
+                }
+                renderNotes(noteService.getNotes(sortFunc));
             } else {
                 el.classList.remove(buttonActiveClass, sortButtonAscClass, sortButtonDesClass);
             }
@@ -41,7 +72,14 @@ function handleSortClickEvent(event) {
 const showFinishedButton = document.querySelector('#show-finished');
 
 function handleFinishedButtonEvent(event) {
-    event.target.classList.toggle(buttonActiveClass);
+    const clickedButton = event.target;
+    if (clickedButton.classList.contains(buttonActiveClass)) {
+        clickedButton.classList.remove(buttonActiveClass);
+        renderNotes(noteService.getNotes());
+    } else {
+        clickedButton.classList.add(buttonActiveClass);
+        renderNotes(noteService.getNotes(null, (n) => n.finished));
+    }
 }
 
 // Initialization
@@ -61,14 +99,13 @@ function initEventHandlers() {
     });
 }
 
-function renderNotes() {
-    const notes = noteService.getNotes();
+function renderNotes(notes) {
     notesContainer.innerHTML = MarkupGenerator.generateNotesMarkup(notes);
 }
 
 function init() {
     initEventHandlers();
-    renderNotes();
+    renderNotes(noteService.getNotes());
 }
 
 init();
