@@ -1,5 +1,4 @@
-import moment from 'moment';
-import {Helper} from '../utils/helper';
+import {Helper} from '../utils/helper.js';
 
 export class Note {
     constructor(id = undefined, title, description,

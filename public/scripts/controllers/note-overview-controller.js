@@ -1,31 +1,11 @@
-// Theme chooser
-const lightThemeValue = 'light-theme';
-const darkThemeValue = 'dark-theme';
-const themeLocalStorageId = 'theme';
+import {noteService} from '../services/note-service.js';
+import {MarkupGenerator} from '../utils/markup-generator.js';
 
-const themeChooser = document.querySelector('#choose-theme');
+// Create Note
+const createNoteButton = document.querySelector('.header-buttons__create');
 
-function handleThemeChangeEvent(event) {
-    const currentValue = event.target.value;
-    const bodyClassList = document.body.classList;
-
-    if (currentValue === lightThemeValue) {
-        bodyClassList.remove(darkThemeValue);
-    }
-
-    if (currentValue === darkThemeValue) {
-        bodyClassList.add(darkThemeValue);
-    }
-
-    localStorage.setItem(themeLocalStorageId, currentValue);
-}
-
-function initializeTheme() {
-    const savedTheme = localStorage.getItem(themeLocalStorageId);
-    if (savedTheme === darkThemeValue) {
-        document.body.classList.add(darkThemeValue);
-        themeChooser.value = darkThemeValue;
-    }
+function handleCreateNoteEvent() {
+    window.location.href = 'note-detail.html';
 }
 
 // Sorting
@@ -37,19 +17,19 @@ const sortButtonAscClass = 'sort-asc';
 const sortButtonDesClass = 'sort-desc';
 
 function handleSortClickEvent(event) {
-    const clickedElem = event.target;
+    const clickedButton = event.target;
 
-    if (clickedElem.classList.contains(buttonActiveClass)) {
-        if (clickedElem.classList.contains(sortButtonDesClass)) {
-            clickedElem.classList.toggle(sortButtonAscClass);
-            clickedElem.classList.toggle(sortButtonDesClass);
+    if (clickedButton.classList.contains(buttonActiveClass)) {
+        if (clickedButton.classList.contains(sortButtonDesClass)) {
+            clickedButton.classList.toggle(sortButtonAscClass);
+            clickedButton.classList.toggle(sortButtonDesClass);
         } else {
-            clickedElem.classList.remove(buttonActiveClass, sortButtonAscClass, sortButtonDesClass);
+            clickedButton.classList.remove(buttonActiveClass, sortButtonAscClass, sortButtonDesClass);
         }
     } else {
         sortButtons.forEach((el) => {
-            if (el.id === clickedElem.id) {
-                clickedElem.classList.add(buttonActiveClass, sortButtonDesClass);
+            if (el.id === clickedButton.id) {
+                clickedButton.classList.add(buttonActiveClass, sortButtonDesClass);
             } else {
                 el.classList.remove(buttonActiveClass, sortButtonAscClass, sortButtonDesClass);
             }
@@ -65,10 +45,11 @@ function handleFinishedButtonEvent(event) {
 }
 
 // Initialization
+const notesContainer = document.querySelector('#notes-container');
 
 function initEventHandlers() {
-    themeChooser?.addEventListener('change', (event) => {
-        handleThemeChangeEvent(event);
+    createNoteButton?.addEventListener('click', () => {
+        handleCreateNoteEvent();
     });
 
     sortButtonsContainer?.addEventListener('click', (event) => {
@@ -80,9 +61,14 @@ function initEventHandlers() {
     });
 }
 
+function renderNotes() {
+    const notes = noteService.getNotes();
+    notesContainer.innerHTML = MarkupGenerator.generateNotesMarkup(notes);
+}
+
 function init() {
-    initializeTheme();
     initEventHandlers();
+    renderNotes();
 }
 
 init();

@@ -1,5 +1,5 @@
-import {NoteStorage} from './data/note-storage';
-import {Note} from './note';
+import {NoteStorage} from './data/note-storage.js';
+import {Note} from './note.js';
 
 export class NoteService {
     constructor(storage) {
@@ -36,3 +36,5 @@ export class NoteService {
         this.storage.updateNote(note);
     }
 }
+
+export const noteService = new NoteService();
