@@ -24,7 +24,7 @@ function handleFormSubmitEvent(event) {
 
 function saveNewNote() {
     const note = new Note(undefined, formTitle.value, formDescription.value, formImportance.value,
-        undefined, moment(formDueDate.value).format(), false, undefined);
+        null, moment(formDueDate.value).format(), false, undefined);
     noteService.addNote(note);
 }
 

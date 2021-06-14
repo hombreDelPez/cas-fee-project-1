@@ -8,6 +8,57 @@ function handleCreateNoteEvent() {
     window.location.href = 'note-detail.html';
 }
 
+// Manipulate Note (common)
+const editButtonId = 'edit-note';
+const deleteButtonId = 'delete-note';
+
+function handleManipulateNoteEvent(event) {
+    const clickedElement = event.target;
+
+    if (clickedElement.id === editButtonId) {
+        editNote(getNoteFromChildElem(clickedElement));
+    }
+    if (clickedElement.id === deleteButtonId) {
+        deleteNote(clickedElement);
+    }
+    if (clickedElement.type === 'checkbox') {
+        toggleFinishState(getNoteFromChildElem(clickedElement), clickedElement);
+    }
+}
+
+function getNoteFromChildElem(elem) {
+    const {noteId} = elem.closest('.note').dataset;
+    return noteService.getNoteById(noteId);
+}
+
+// Edit Note
+function editNote(note) {
+    // TODO
+}
+
+// Finish Note
+function toggleFinishState(note, clickedElem) {
+    const alteredNote = note;
+    if (note.finished) {
+        alteredNote.finished = false;
+        alteredNote.finishDate = null;
+    } else {
+        alteredNote.finished = true;
+        alteredNote.finishDate = moment().format();
+    }
+
+    noteService.updateNote(alteredNote);
+    const finishInfoDiv = clickedElem.closest('.note__finish-info');
+    finishInfoDiv.outerHTML = MarkupGenerator.generateFinishInfoMarkup(note);
+}
+
+// Delete Note
+function deleteNote(clickedElem) {
+    const noteElem = clickedElem.closest('.note');
+    noteService.deleteNote(noteElem.dataset.noteId);
+    noteElem.outerHTML = '';
+}
+
 // Sorting
 const sortButtonsContainer = document.querySelector('.sort-buttons');
 const sortButtons = Array.from(document.querySelectorAll('.sort-buttons .btn'));
@@ -90,6 +141,10 @@ function initEventHandlers() {
         handleCreateNoteEvent();
     });
 
+    notesContainer?.addEventListener('click', (event) => {
+        handleManipulateNoteEvent(event);
+    });
+
     sortButtonsContainer?.addEventListener('click', (event) => {
         handleSortClickEvent(event);
     });
@@ -104,8 +159,8 @@ function renderNotes(notes) {
 }
 
 function init() {
-    initEventHandlers();
     renderNotes(noteService.getNotes());
+    initEventHandlers();
 }
 
 init();

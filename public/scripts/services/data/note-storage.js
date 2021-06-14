@@ -18,7 +18,7 @@ export class NoteStorage {
     }
 
     getNoteById(id) {
-        return this.notes.find(n => n.id === id);
+        return this.notes.find((n) => n.id === id);
     }
 
     addNote(note) {
@@ -27,8 +27,16 @@ export class NoteStorage {
     }
 
     updateNote(note) {
-        let index = this.notes.findIndex(n => n.id === note.id);
-        this.notes[index] = note;
+        this.notes[this.getArrayIndexOfNoteInternal(note)] = note;
         this.saveNotesToLocalStorageInternal(this.notes);
+    }
+
+    deleteNote(noteId) {
+        this.notes.splice(this.getArrayIndexOfNoteInternal({id: noteId}), 1);
+        this.saveNotesToLocalStorageInternal(this.notes);
+    }
+
+    getArrayIndexOfNoteInternal(note) {
+        return this.notes.findIndex((n) => n.id === note.id);
     }
 }

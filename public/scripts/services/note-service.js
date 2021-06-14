@@ -22,10 +22,7 @@ export class NoteService {
     }
 
     getNoteById(id) {
-        const noteData = this.storage.getNoteById(id);
-
-        return new Note(noteData.id, noteData.title, noteData.description, noteData.importance,
-            noteData.createDate, noteData.dueDate, noteData.finished, noteData.finishDate);
+        return this.storage.getNoteById(id);
     }
 
     addNote(note) {
@@ -34,6 +31,10 @@ export class NoteService {
 
     updateNote(note) {
         this.storage.updateNote(note);
+    }
+
+    deleteNote(noteId) {
+        this.storage.deleteNote(noteId);
     }
 }
 
