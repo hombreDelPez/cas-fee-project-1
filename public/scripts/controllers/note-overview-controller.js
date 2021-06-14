@@ -15,46 +15,51 @@ const deleteButtonId = 'delete-note';
 function handleManipulateNoteEvent(event) {
     const clickedElement = event.target;
 
+    // TODO: Refactor use of noteId
     if (clickedElement.id === editButtonId) {
-        editNote(getNoteFromChildElem(clickedElement));
+        editNote(clickedElement);
     }
     if (clickedElement.id === deleteButtonId) {
         deleteNote(clickedElement);
     }
     if (clickedElement.type === 'checkbox') {
-        toggleFinishState(getNoteFromChildElem(clickedElement), clickedElement);
+        toggleFinishState(clickedElement);
     }
 }
 
-function getNoteFromChildElem(elem) {
-    const {noteId} = elem.closest('.note').dataset;
-    return noteService.getNoteById(noteId);
+function getNoteElemFromChildElem(elem) {
+    return elem.closest('.note');
+}
+
+function getNoteIdFromChildElem(elem) {
+    return getNoteElemFromChildElem(elem).dataset.noteId;
 }
 
 // Edit Note
-function editNote(note) {
-    // TODO
+function editNote(clickedElem) {
+    window.location.href = `note-detail.html?id=${getNoteIdFromChildElem(clickedElem)}`;
 }
 
 // Finish Note
-function toggleFinishState(note, clickedElem) {
-    const alteredNote = note;
+function toggleFinishState(clickedElem) {
+    const note = noteService.getNoteById(getNoteIdFromChildElem(clickedElem));
+
     if (note.finished) {
-        alteredNote.finished = false;
-        alteredNote.finishDate = null;
+        note.finished = false;
+        note.finishDate = null;
     } else {
-        alteredNote.finished = true;
-        alteredNote.finishDate = moment().format();
+        note.finished = true;
+        note.finishDate = moment().format();
     }
 
-    noteService.updateNote(alteredNote);
+    noteService.updateNote(note);
     const finishInfoDiv = clickedElem.closest('.note__finish-info');
     finishInfoDiv.outerHTML = MarkupGenerator.generateFinishInfoMarkup(note);
 }
 
 // Delete Note
 function deleteNote(clickedElem) {
-    const noteElem = clickedElem.closest('.note');
+    const noteElem = getNoteElemFromChildElem(clickedElem);
     noteService.deleteNote(noteElem.dataset.noteId);
     noteElem.outerHTML = '';
 }
