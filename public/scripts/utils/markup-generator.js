@@ -2,7 +2,7 @@ export class MarkupGenerator {
     static generateNoteMarkup(note) {
         return `<div class="note" data-note-id="${note.id}">
         <div class="note__due-date">
-          <p>Due Date: <span class="bold">${note.dueDate}</span></p>
+          <p>📅&#xFE0E; <span class="bold">${moment(note.dueDate).format('DD.MM.YY')}</span></p>
         </div>
         <div class="note__title-importance">
           <div>
@@ -13,12 +13,13 @@ export class MarkupGenerator {
           </div>
         </div>
         <div class="note__manipulate">
-          <button id="edit-note" class="btn">&#9998; Edit</button>
-          <button id="delete-note" class="btn">&#128465; Delete</button>
+          <button id="edit-note" class="btn">Edit</button>
+          <button id="delete-note" class="btn">Delete</button>
         </div>
         <div class="note__finish-created">
           ${this.generateFinishInfoMarkup(note)}
-          <p class="note__create-info">Created Date: ${note.createDate}</p>
+          <p class="note__create-info">Created Date:<br>
+             ${moment(note.createDate).format('DD.MM.YY HH:mm')}</p>
         </div>
         <div class="note__description">
           <textarea readonly>${note.description}</textarea>
@@ -38,7 +39,7 @@ export class MarkupGenerator {
     static generateFinishInfoMarkup(note) {
         return `<div class="note__finish-info">
             <input type="checkbox" ${note.finished ? 'checked' : ''}>
-            <p>Finished ${note.finished ? `(${note.finishDate})` : ''}</p>
+            <p>Finished ${note.finished ? `(${moment(note.finishDate).format('DD.MM.YY')})` : ''}</p>
           </div>`;
     }
 
