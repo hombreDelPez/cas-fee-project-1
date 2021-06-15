@@ -12,14 +12,23 @@ const formDueDate = document.querySelector('#dueDate');
 function handleFormSubmitEvent(event) {
     event.preventDefault();
 
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('id')) {
+    if (isInEditMode()) {
         updateExistingNote();
     } else {
         saveNewNote();
     }
 
     window.location.href = 'index.html';
+}
+
+function getIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('id');
+}
+
+function isInEditMode() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.has('id');
 }
 
 function saveNewNote() {
@@ -29,7 +38,14 @@ function saveNewNote() {
 }
 
 function updateExistingNote() {
-    // TODO: implementation
+    const note = noteService.getNoteById(getIdFromUrl());
+
+    note.title = formTitle.value;
+    note.description = formDescription.value;
+    note.importance = formImportance.value;
+    note.dueDate = moment(formDueDate.value).format();
+
+    noteService.updateNote(note);
 }
 
 // Cancel Note
@@ -40,6 +56,16 @@ function handleFormCancelEvent() {
 }
 
 // Initialization
+function preFillForm() {
+    if (isInEditMode()) {
+        const note = noteService.getNoteById(getIdFromUrl());
+        formTitle.value = note.title;
+        formDescription.value = note.description;
+        formImportance.value = note.importance;
+        formDueDate.value = moment(note.dueDate).format('YYYY-MM-DD');
+    }
+}
+
 function initEventHandlers() {
     form?.addEventListener('submit', (event) => {
         handleFormSubmitEvent(event);
@@ -51,6 +77,7 @@ function initEventHandlers() {
 }
 
 function init() {
+    preFillForm();
     initEventHandlers();
 }
 

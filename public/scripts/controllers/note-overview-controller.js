@@ -15,7 +15,6 @@ const deleteButtonId = 'delete-note';
 function handleManipulateNoteEvent(event) {
     const clickedElement = event.target;
 
-    // TODO: Refactor use of noteId
     if (clickedElement.id === editButtonId) {
         editNote(clickedElement);
     }
