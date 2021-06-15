@@ -29,8 +29,12 @@ export class MarkupGenerator {
 
     static generateImportanceMarkup(importance) {
         const arr = [];
-        for (let i = 0; i < importance; i++) {
-            arr.push('&starf;');
+        for (let i = 0; i < 5; i++) {
+            if (i < importance) {
+                arr.push('&starf;');
+            } else {
+                arr.push('&star;');
+            }
         }
 
         return arr.join(' ');

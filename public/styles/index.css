@@ -1,4 +1,4 @@
-/* color definitions */
+/* Color Definitions */
 
 :root {
     --background-color: #f2f0f0;
@@ -18,7 +18,7 @@
     --font-color: #eee;
 }
 
-/* base styles */
+/* Base Styles */
 
 * {
     box-sizing: border-box;
@@ -82,7 +82,7 @@ footer {
     margin-right: 1.5rem;
 }
 
-/* sorting and filtering */
+/* Sorting and Filtering */
 
 .app-btns {
     display: flex;
@@ -120,7 +120,7 @@ footer {
     content: "\2612  ";
 }
 
-/* note */
+/* Note */
 
 .note {
     display: grid;
@@ -192,7 +192,7 @@ footer {
     resize: none;
 }
 
-/* edit form */
+/* Edit Form */
 
 form {
     display: flex;
@@ -219,6 +219,38 @@ form {
     height: 8rem;
 }
 
+.form__importance > label {
+    margin-top: 0.35rem;
+}
+
 .form__buttons {
     justify-content: flex-end;
+}
+
+/* Rating */
+
+#importance {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+#importance > input {
+    visibility: hidden;
+}
+
+#importance > label {
+    width: 2rem;
+    cursor: pointer;
+    color: var(--font-color);
+}
+
+#importance > label:not(:checked)::before {
+    content: "\2606";
+    font-size: 1.3em;
+}
+
+#importance > input:checked ~ label::before {
+    content: "\2605";
+    font-size: 1.3em;
 }

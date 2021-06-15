@@ -6,7 +6,6 @@ const form = document.querySelector('form');
 
 const formTitle = document.querySelector('#title');
 const formDescription = document.querySelector('#description');
-const formImportance = document.querySelector('#importance');
 const formDueDate = document.querySelector('#dueDate');
 
 function handleFormSubmitEvent(event) {
@@ -32,7 +31,7 @@ function isInEditMode() {
 }
 
 function saveNewNote() {
-    const note = new Note(undefined, formTitle.value, formDescription.value, formImportance.value,
+    const note = new Note(undefined, formTitle.value, formDescription.value, getRating(),
         null, moment(formDueDate.value).format(), false, undefined);
     noteService.addNote(note);
 }
@@ -42,10 +41,23 @@ function updateExistingNote() {
 
     note.title = formTitle.value;
     note.description = formDescription.value;
-    note.importance = formImportance.value;
+    note.importance = getRating();
     note.dueDate = moment(formDueDate.value).format();
 
     noteService.updateNote(note);
+}
+
+// Rating
+const ratingCheckboxes = Array.from(document.querySelectorAll('#importance > input'));
+
+function getRating() {
+    const checkedRadio = ratingCheckboxes.find((chbx) => chbx.checked === true);
+    return checkedRadio.value;
+}
+
+function setRating(val) {
+    const radioToSet = ratingCheckboxes.find((chbx) => chbx.id.includes(val));
+    radioToSet.checked = true;
 }
 
 // Cancel Note
@@ -61,7 +73,7 @@ function preFillForm() {
         const note = noteService.getNoteById(getIdFromUrl());
         formTitle.value = note.title;
         formDescription.value = note.description;
-        formImportance.value = note.importance;
+        setRating(note.importance);
         formDueDate.value = moment(note.dueDate).format('YYYY-MM-DD');
     }
 }
