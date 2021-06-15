@@ -108,12 +108,16 @@ footer {
     content: "  \21E9";
 }
 
-#show-finished::before {
+#filter-finished::before {
     content: "\2610  ";
 }
 
-#show-finished.btn-active::before {
+#filter-finished.show-actual::before {
     content: "\2611  ";
+}
+
+#filter-finished.show-opposite::before {
+    content: "\2612  ";
 }
 
 /* note */

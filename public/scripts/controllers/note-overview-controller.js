@@ -79,10 +79,10 @@ function handleSortClickEvent(event) {
     const clickedButton = event.target;
     // Button is already active
     if (clickedButton.classList.contains(buttonActiveClass)) {
-        // Sorting get switched to ascending
+        // Sorting gets switched from descending to ascending
         if (clickedButton.classList.contains(sortButtonDesClass)) {
-            clickedButton.classList.toggle(sortButtonAscClass);
-            clickedButton.classList.toggle(sortButtonDesClass);
+            clickedButton.classList.remove(sortButtonDesClass);
+            clickedButton.classList.add(sortButtonAscClass);
             let sortFunc = null;
 
             if (clickedButton.id === sortByFinishDateId) {
@@ -124,15 +124,28 @@ function handleSortClickEvent(event) {
 }
 
 // Filtering
-const showFinishedButton = document.querySelector('#show-finished');
+const showFinishedButton = document.querySelector('#filter-finished');
+const filterButtonShowActualClass = 'show-actual';
+const filterButtonShowOppositeClass = 'show-opposite';
 
 function handleFinishedButtonEvent(event) {
     const clickedButton = event.target;
+    // Button is already active
     if (clickedButton.classList.contains(buttonActiveClass)) {
-        clickedButton.classList.remove(buttonActiveClass);
-        renderNotes(noteService.getNotes());
-    } else {
+        // Filtering gets switched from actual to opposite
+        if (clickedButton.classList.contains(filterButtonShowActualClass)) {
+            clickedButton.classList.remove(filterButtonShowActualClass);
+            clickedButton.classList.add(filterButtonShowOppositeClass);
+
+            renderNotes(noteService.getNotes(null, (n) => !n.finished));
+        } else { // Filtering is cleared
+            clickedButton.classList.remove(buttonActiveClass, filterButtonShowActualClass,
+                filterButtonShowOppositeClass);
+            renderNotes(noteService.getNotes());
+        }
+    } else { // Button is pressed for the first time
         clickedButton.classList.add(buttonActiveClass);
+        clickedButton.classList.add(filterButtonShowActualClass);
         renderNotes(noteService.getNotes(null, (n) => n.finished));
     }
 }
