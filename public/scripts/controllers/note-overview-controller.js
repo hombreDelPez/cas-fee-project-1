@@ -83,8 +83,8 @@ function handleSortClickEvent(event) {
         if (clickedButton.classList.contains(sortButtonDesClass)) {
             clickedButton.classList.remove(sortButtonDesClass);
             clickedButton.classList.add(sortButtonAscClass);
-            let sortFunc = null;
 
+            let sortFunc = null;
             if (clickedButton.id === sortByFinishDateId) {
                 sortFunc = (a, b) => moment(a.finishDate) - moment(b.finishDate);
             }
@@ -94,18 +94,19 @@ function handleSortClickEvent(event) {
             if (clickedButton.id === sortByImportanceId) {
                 sortFunc = (a, b) => a.importance - b.importance;
             }
-            renderNotes(noteService.getNotes(sortFunc));
+
+            noteService.sorting = sortFunc;
         } else { // Sorting is cleared
             clickedButton.classList.remove(buttonActiveClass, sortButtonAscClass, sortButtonDesClass);
-            renderNotes(noteService.getNotes());
+            noteService.sorting = null;
         }
     } else { // Button is pressed for the first time
         sortButtons.forEach((el) => {
             // Sorting gets switched to descending
             if (el.id === clickedButton.id) {
                 clickedButton.classList.add(buttonActiveClass, sortButtonDesClass);
-                let sortFunc = null;
 
+                let sortFunc = null;
                 if (clickedButton.id === sortByFinishDateId) {
                     sortFunc = (a, b) => moment(b.finishDate) - moment(a.finishDate);
                 }
@@ -115,12 +116,15 @@ function handleSortClickEvent(event) {
                 if (clickedButton.id === sortByImportanceId) {
                     sortFunc = (a, b) => b.importance - a.importance;
                 }
-                renderNotes(noteService.getNotes(sortFunc));
+
+                noteService.sorting = sortFunc;
             } else {
                 el.classList.remove(buttonActiveClass, sortButtonAscClass, sortButtonDesClass);
             }
         });
     }
+
+    renderNotes();
 }
 
 // Filtering
@@ -137,17 +141,20 @@ function handleFinishedButtonEvent(event) {
             clickedButton.classList.remove(filterButtonShowActualClass);
             clickedButton.classList.add(filterButtonShowOppositeClass);
 
-            renderNotes(noteService.getNotes(null, (n) => !n.finished));
+            noteService.filtering = (n) => !n.finished;
         } else { // Filtering is cleared
             clickedButton.classList.remove(buttonActiveClass, filterButtonShowActualClass,
                 filterButtonShowOppositeClass);
-            renderNotes(noteService.getNotes());
+            noteService.filtering = null;
         }
     } else { // Button is pressed for the first time
         clickedButton.classList.add(buttonActiveClass);
         clickedButton.classList.add(filterButtonShowActualClass);
-        renderNotes(noteService.getNotes(null, (n) => n.finished));
+
+        noteService.filtering = (n) => n.finished;
     }
+
+    renderNotes();
 }
 
 // Initialization
@@ -171,12 +178,13 @@ function initEventHandlers() {
     });
 }
 
-function renderNotes(notes) {
+function renderNotes() {
+    const notes = noteService.getNotes();
     notesContainer.innerHTML = MarkupGenerator.generateNotesMarkup(notes);
 }
 
 function init() {
-    renderNotes(noteService.getNotes());
+    renderNotes();
     initEventHandlers();
 }
 

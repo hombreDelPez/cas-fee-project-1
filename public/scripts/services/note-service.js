@@ -4,18 +4,20 @@ import {Note} from './note.js';
 export class NoteService {
     constructor(storage) {
         this.storage = storage || new NoteStorage();
+        this.sorting = null;
+        this.filtering = null;
     }
 
-    getNotes(orderBy, filterBy) {
+    getNotes() {
         let notes = this.storage.getNotes().map((n) => new Note(n.id, n.title, n.description,
             n.importance, n.createDate, n.dueDate, n.finished, n.finishDate));
 
-        if (orderBy) {
-            notes.sort(orderBy);
+        if (this.sorting) {
+            notes.sort(this.sorting);
         }
 
-        if (filterBy) {
-            notes = notes.filter(filterBy);
+        if (this.filtering) {
+            notes = notes.filter(this.filtering);
         }
 
         return notes;
