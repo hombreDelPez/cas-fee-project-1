@@ -1,8 +1,8 @@
 {
-  "name": "cas-fee-projekt-1-starter-template",
+  "name": "noting-matters",
   "version": "1.0.0",
-  "description": "Testat template",
-  "main": "public/scripts/main.js",
+  "description": "A groundbreaking and innovative note application.",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node index.js",
@@ -12,7 +12,7 @@
     "eslint": "eslint ./**/*.js",
     "all": "npm run stylelint && npm run w3c  && npm run eslint  && node -e \"console.log('npm run all completed')\""
   },
-  "author": "Michael Gfeller",
+  "author": "Manuel Fischer",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^7.21.0",
@@ -23,6 +23,9 @@
     "stylelint-config-standard": "^21.0.0"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "nedb-promise": "^2.0.1",
+    "path": "^0.12.7"
   }
 }

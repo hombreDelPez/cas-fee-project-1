@@ -1,11 +1,23 @@
 import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
+
+import {noteRoutes} from './routes/note-routes.js';
 
 const app = express();
-const port = 3000;
 
-app.use(express.static('public'));
+app.use(express.static(path.resolve('public')));
+
+app.use(bodyParser.json());
+
+app.get('/', (req, res) => {
+    res.sendFile('index.html', {root: path.join(__dirname, '/public/')});
+});
+
+app.use('/api/notes', noteRoutes);
+
+const port = 3001;
 
 app.listen(port, () => {
-    // eslint-disable-next-line no-console
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`"Noting Matters" Server running at http://localhost:${port}`);
 });
