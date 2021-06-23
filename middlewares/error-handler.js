@@ -1,17 +1,19 @@
+import path from 'path';
+
 export class ErrorHandler {
-    handleNotFound = () => {
+    handleNotFound = (rootPath) => {
         // eslint-disable-next-line no-unused-vars
         return (req, res, next) => {
             res.status(404);
-            res.send('404 - Not Found');
+            res.sendFile('html/error/404.html', {root: path.join(rootPath, '/public/')});
         };
     };
 
-    handleServerError = () => {
+    handleServerError = (rootPath) => {
         // eslint-disable-next-line no-unused-vars
         return (err, req, res, next) => {
             res.status(500);
-            res.send('500 - An Error occurred');
+            res.sendFile('html/error/500.html', {root: path.join(rootPath, '/public/')});
         };
     };
 }

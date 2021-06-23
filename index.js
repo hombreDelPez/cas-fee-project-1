@@ -7,16 +7,18 @@ import {errorHandler} from './middlewares/error-handler.js';
 import {commonHandler} from './middlewares/common-handler.js';
 
 const app = express();
+const rootPath = path.resolve();
 
 app.use(bodyParser.json());
 app.use(commonHandler.doLogging());
 app.use(express.static(path.resolve('public')));
+app.use(express.static(path.resolve('public/html')));
 app.get('/', (req, res) => {
-    res.sendFile('index.html', {root: path.join(__dirname, '/public/')});
+    res.sendFile('html/index.html', {root: path.join(rootPath, '/public/')});
 });
 app.use('/api/notes', noteRoutes);
-app.use(errorHandler.handleNotFound());
-app.use(errorHandler.handleServerError());
+app.use(errorHandler.handleNotFound(rootPath));
+app.use(errorHandler.handleServerError(rootPath));
 
 const port = 3001;
 app.listen(port, () => {
