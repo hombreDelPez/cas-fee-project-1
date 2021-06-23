@@ -1,15 +1,16 @@
-import {NoteStorage} from './data/note-storage.js';
+import {HttpHelper} from '../utils/http-helper.js';
 import {Note} from './note.js';
 
 export class NoteService {
-    constructor(storage) {
-        this.storage = storage || new NoteStorage();
+    constructor() {
+        this.apiBaseUrl = '/api/notes/';
         this.sorting = null;
         this.filtering = null;
     }
 
-    getNotes() {
-        let notes = this.storage.getNotes().map((n) => new Note(n.id, n.title, n.description,
+    async getNotes() {
+        const apiData = await HttpHelper.ajax('get', this.apiBaseUrl, undefined);
+        let notes = apiData.map((n) => new Note(n._id, n.title, n.description,
             n.importance, n.createDate, n.dueDate, n.finished, n.finishDate));
 
         if (this.sorting) {
@@ -23,20 +24,20 @@ export class NoteService {
         return notes;
     }
 
-    getNoteById(id) {
-        return this.storage.getNoteById(id);
+    async getNoteById(id) {
+        return await HttpHelper.ajax('get', this.apiBaseUrl + id, undefined);
     }
 
-    addNote(note) {
-        this.storage.addNote(note);
+    async addNote(note) {
+        await HttpHelper.ajax('post', this.apiBaseUrl, note);
     }
 
-    updateNote(note) {
-        this.storage.updateNote(note);
+    async updateNote(note) {
+        await HttpHelper.ajax('put', this.apiBaseUrl + note._id, note);
     }
 
-    deleteNote(noteId) {
-        this.storage.deleteNote(noteId);
+    async deleteNote(noteId) {
+        await HttpHelper.ajax('delete', this.apiBaseUrl + noteId, undefined);
     }
 }
 

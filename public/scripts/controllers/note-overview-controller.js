@@ -12,17 +12,17 @@ function handleCreateNoteEvent() {
 const editButtonId = 'edit-note';
 const deleteButtonId = 'delete-note';
 
-function handleManipulateNoteEvent(event) {
+async function handleManipulateNoteEvent(event) {
     const clickedElement = event.target;
 
     if (clickedElement.id === editButtonId) {
         editNote(clickedElement);
     }
     if (clickedElement.id === deleteButtonId) {
-        deleteNote(clickedElement);
+        await deleteNote(clickedElement);
     }
     if (clickedElement.type === 'checkbox') {
-        toggleFinishState(clickedElement);
+        await toggleFinishState(clickedElement);
     }
 }
 
@@ -40,26 +40,26 @@ function editNote(clickedElem) {
 }
 
 // Finish Note
-function toggleFinishState(clickedElem) {
-    const note = noteService.getNoteById(getNoteIdFromChildElem(clickedElem));
+async function toggleFinishState(clickedElem) {
+    const note = await noteService.getNoteById(getNoteIdFromChildElem(clickedElem));
 
     if (note.finished) {
         note.finished = false;
-        note.finishDate = null;
+        note.finishDate = undefined;
     } else {
         note.finished = true;
         note.finishDate = moment().format();
     }
 
-    noteService.updateNote(note);
+    await noteService.updateNote(note);
     const finishInfoDiv = clickedElem.closest('.note__finish-info');
     finishInfoDiv.outerHTML = MarkupGenerator.generateFinishInfoMarkup(note);
 }
 
 // Delete Note
-function deleteNote(clickedElem) {
+async function deleteNote(clickedElem) {
     const noteElem = getNoteElemFromChildElem(clickedElem);
-    noteService.deleteNote(noteElem.dataset.noteId);
+    await noteService.deleteNote(noteElem.dataset.noteId);
     noteElem.outerHTML = '';
 }
 
@@ -165,8 +165,8 @@ function initEventHandlers() {
         handleCreateNoteEvent();
     });
 
-    notesContainer?.addEventListener('click', (event) => {
-        handleManipulateNoteEvent(event);
+    notesContainer?.addEventListener('click', async (event) => {
+        await handleManipulateNoteEvent(event);
     });
 
     sortButtonsContainer?.addEventListener('click', (event) => {
@@ -178,13 +178,13 @@ function initEventHandlers() {
     });
 }
 
-function renderNotes() {
-    const notes = noteService.getNotes();
+async function renderNotes() {
+    const notes = await noteService.getNotes();
     notesContainer.innerHTML = MarkupGenerator.generateNotesMarkup(notes);
 }
 
-function init() {
-    renderNotes();
+async function init() {
+    await renderNotes();
     initEventHandlers();
 }
 

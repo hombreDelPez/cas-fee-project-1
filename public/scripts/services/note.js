@@ -1,10 +1,8 @@
-import {Helper} from '../utils/helper.js';
-
 export class Note {
     constructor(id = undefined, title, description,
-                importance, createDate = null,
-                dueDate, finished = false, finishDate) {
-        this.id = id || Helper.uuidv4();
+                importance, createDate = undefined,
+                dueDate, finished = false, finishDate = undefined) {
+        this._id = id;
         this.title = title;
         this.description = description;
         this.importance = importance || 3;

@@ -1,6 +1,6 @@
 export class MarkupGenerator {
     static generateNoteMarkup(note) {
-        return `<div class="note" data-note-id="${note.id}">
+        return `<div class="note" data-note-id="${note._id}">
         <div class="note__due-date">
           <p>📅&#xFE0E; <span class="bold">${moment(note.dueDate).format('DD.MM.YY')}</span></p>
         </div>

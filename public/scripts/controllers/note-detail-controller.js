@@ -8,13 +8,13 @@ const formTitle = document.querySelector('#title');
 const formDescription = document.querySelector('#description');
 const formDueDate = document.querySelector('#dueDate');
 
-function handleFormSubmitEvent(event) {
+async function handleFormSubmitEvent(event) {
     event.preventDefault();
 
     if (isInEditMode()) {
-        updateExistingNote();
+        await updateExistingNote();
     } else {
-        saveNewNote();
+        await saveNewNote();
     }
 
     window.location.href = 'index.html';
@@ -30,21 +30,21 @@ function isInEditMode() {
     return urlParams.has('id');
 }
 
-function saveNewNote() {
+async function saveNewNote() {
     const note = new Note(undefined, formTitle.value, formDescription.value, getRating(),
         null, moment(formDueDate.value).format(), false, undefined);
-    noteService.addNote(note);
+    await noteService.addNote(note);
 }
 
-function updateExistingNote() {
-    const note = noteService.getNoteById(getIdFromUrl());
+async function updateExistingNote() {
+    const note = await noteService.getNoteById(getIdFromUrl());
 
     note.title = formTitle.value;
     note.description = formDescription.value;
     note.importance = getRating();
     note.dueDate = moment(formDueDate.value).format();
 
-    noteService.updateNote(note);
+    await noteService.updateNote(note);
 }
 
 // Rating
@@ -68,9 +68,9 @@ function handleFormCancelEvent() {
 }
 
 // Initialization
-function preFillForm() {
+async function preFillForm() {
     if (isInEditMode()) {
-        const note = noteService.getNoteById(getIdFromUrl());
+        const note = await noteService.getNoteById(getIdFromUrl());
         formTitle.value = note.title;
         formDescription.value = note.description;
         setRating(note.importance);
@@ -79,8 +79,8 @@ function preFillForm() {
 }
 
 function initEventHandlers() {
-    form?.addEventListener('submit', (event) => {
-        handleFormSubmitEvent(event);
+    form?.addEventListener('submit', async (event) => {
+        await handleFormSubmitEvent(event);
     });
 
     formCancelButton?.addEventListener('click', () => {
@@ -88,8 +88,8 @@ function initEventHandlers() {
     });
 }
 
-function init() {
-    preFillForm();
+async function init() {
+    await preFillForm();
     initEventHandlers();
 }
 
