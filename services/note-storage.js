@@ -7,7 +7,7 @@ export class NoteStorage {
     }
 
     async getNotes() {
-        return await this.db.find({});
+        return await this.db.cfind({}).sort({dueDate: 1}).exec();
     }
 
     async getNoteById(id) {
