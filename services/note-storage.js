@@ -7,11 +7,11 @@ export class NoteStorage {
     }
 
     async getNotes() {
-        return await this.db.cfind({}).sort({dueDate: 1}).exec();
+        return this.db.cfind({}).sort({dueDate: 1}).exec();
     }
 
     async getNoteById(id) {
-        return await this.db.findOne({_id: id});
+        return this.db.findOne({_id: id});
     }
 
     async addNote(note) {
@@ -20,7 +20,7 @@ export class NoteStorage {
 
     async updateNote(note) {
         await this.db.update({_id: note._id}, note);
-        return await this.getNoteById(note._id);
+        return this.getNoteById(note._id);
     }
 
     async deleteNote(noteId) {

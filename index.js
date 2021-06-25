@@ -22,5 +22,6 @@ app.use(errorHandler.handleServerError(rootPath));
 
 const port = 3001;
 app.listen(port, () => {
+    // eslint-disable-next-line no-console
     console.log(`"Noting Matters" Server running at http://localhost:${port}`);
 });

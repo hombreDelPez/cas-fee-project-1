@@ -173,6 +173,7 @@ footer {
     align-items: center;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .note__manipulate .btn {
     padding: 1em;
 }

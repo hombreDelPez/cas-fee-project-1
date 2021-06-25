@@ -25,7 +25,7 @@ export class NoteService {
     }
 
     async getNoteById(id) {
-        return await HttpHelper.ajax('get', this.apiBaseUrl + id, undefined);
+        return HttpHelper.ajax('get', this.apiBaseUrl + id, undefined);
     }
 
     async addNote(note) {
