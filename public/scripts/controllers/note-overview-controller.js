@@ -76,6 +76,21 @@ const sortByCreateDateId = 'sort-by-create-date';
 const sortByImportanceId = 'sort-by-importance';
 
 function handleSortClickEvent(event) {
+    // This ensures that the notes without a finish date are always last
+    const getFinishDate = (finishDate, sortOrder) => {
+        let date;
+        if (sortOrder === 'asc') {
+            date = moment('2100-12-31');
+        } else {
+            date = moment('2000-01-01');
+        }
+        if (finishDate) {
+            date = moment(finishDate);
+        }
+
+        return date;
+    };
+
     const clickedButton = event.target;
     // Button is already active
     if (clickedButton.classList.contains(buttonActiveClass)) {
@@ -86,7 +101,7 @@ function handleSortClickEvent(event) {
 
             let sortFunc = null;
             if (clickedButton.id === sortByFinishDateId) {
-                sortFunc = (a, b) => moment(a.finishDate) - moment(b.finishDate);
+                sortFunc = (a, b) => getFinishDate(a.finishDate, 'asc') - getFinishDate(b.finishDate, 'asc');
             }
             if (clickedButton.id === sortByCreateDateId) {
                 sortFunc = (a, b) => moment(a.createDate) - moment(b.createDate);
@@ -108,7 +123,7 @@ function handleSortClickEvent(event) {
 
                 let sortFunc = null;
                 if (clickedButton.id === sortByFinishDateId) {
-                    sortFunc = (a, b) => moment(b.finishDate) - moment(a.finishDate);
+                    sortFunc = (a, b) => getFinishDate(b.finishDate) - getFinishDate(a.finishDate);
                 }
                 if (clickedButton.id === sortByCreateDateId) {
                     sortFunc = (a, b) => moment(b.createDate) - moment(a.createDate);
