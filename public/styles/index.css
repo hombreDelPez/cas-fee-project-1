@@ -90,8 +90,7 @@ footer {
 }
 
 .sort-filter-buttons .btn:nth-child(2),
-.sort-filter-buttons .btn:nth-child(3),
-.form__buttons .btn:last-child {
+.sort-filter-buttons .btn:nth-child(3) {
     margin-left: 1rem;
 }
 
@@ -212,7 +211,12 @@ form {
     width: 35%;
 }
 
-.form-div .form-input {
+.form-div button[type=button] {
+    width: 30%;
+}
+
+.form-div .form-input,
+button[type=submit] {
     width: 65%;
 }
 
@@ -225,7 +229,7 @@ form {
 }
 
 .form__buttons {
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 /* Rating */
