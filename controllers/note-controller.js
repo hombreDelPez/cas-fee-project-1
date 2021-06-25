@@ -1,4 +1,5 @@
 import {noteStorage} from '../services/note-storage.js';
+import {Note} from '../public/scripts/services/note.js';
 
 export class NoteController {
     getAllNotes = async (req, res) => {
@@ -17,24 +18,34 @@ export class NoteController {
         }
     };
 
-    // TODO: Validate note object
     createNote = async (req, res) => {
-        const createdNote = await noteStorage.addNote(req.body);
-
-        res.location(`/api/notes/${createdNote._id}`);
-        res.status(201);
-        res.json(createdNote);
+        const tryParse = NoteController.tryParseNote(req.body);
+        if (!tryParse.isValid) {
+            res.status(400);
+            res.send('Object in request body is not valid!');
+        } else {
+            const createdNote = await noteStorage.addNote(tryParse.note);
+            res.location(`/api/notes/${createdNote._id}`);
+            res.status(201);
+            res.json(createdNote);
+        }
     };
 
-    // TODO: Validate note object
     updateNote = async (req, res) => {
         const passedNote = req.body;
         const noteToUpdate = await noteStorage.getNoteById(passedNote._id);
+        const tryParse = NoteController.tryParseNote(passedNote);
 
-        if (!noteToUpdate) {
-            this.createNote(req, res);
+        if (!tryParse.isValid) {
+            res.status(400);
+            res.send('Object in request body is not valid!');
         } else {
-            res.json(await noteStorage.updateNote(passedNote));
+            // eslint-disable-next-line no-lonely-if
+            if (!noteToUpdate) {
+                this.createNote(req, res);
+            } else {
+                res.json(await noteStorage.updateNote(passedNote));
+            }
         }
     };
 
@@ -49,6 +60,28 @@ export class NoteController {
             res.json(await noteStorage.deleteNote(passedNoteId));
         }
     };
+
+    static tryParseNote(payload) {
+        if (!payload.title || !payload.description || !payload.importance
+            || !payload.createDate || !payload.dueDate) {
+            return {isValid: false};
+        }
+
+        if (typeof payload.finished !== 'boolean') {
+            return {isValid: false};
+        }
+
+        if (payload.finished) {
+            if (typeof payload.finishDate === 'undefined') {
+                return {isValid: false};
+            }
+        }
+
+        const note = new Note(payload._id, payload.title, payload.description, payload.importance,
+            payload.createDate, payload.dueDate, payload.finished, payload.finishDate);
+
+        return {isValid: true, note};
+    }
 }
 
 export const noteController = new NoteController();
