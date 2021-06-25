@@ -1,6 +1,7 @@
 import path from 'path';
 
 export class ErrorHandler {
+    // eslint-disable-next-line arrow-body-style
     handleNotFound = (rootPath) => {
         // eslint-disable-next-line no-unused-vars
         return (req, res, next) => {
@@ -9,6 +10,7 @@ export class ErrorHandler {
         };
     };
 
+    // eslint-disable-next-line arrow-body-style
     handleServerError = (rootPath) => {
         // eslint-disable-next-line no-unused-vars
         return (err, req, res, next) => {

@@ -21,7 +21,7 @@ export class NoteController {
     createNote = async (req, res) => {
         const createdNote = await noteStorage.addNote(req.body);
 
-        res.location('/api/notes/' + createdNote._id);
+        res.location(`/api/notes/${createdNote._id}`);
         res.status(201);
         res.json(createdNote);
     };
