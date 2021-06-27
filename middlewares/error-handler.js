@@ -8,11 +8,13 @@ export class ErrorHandler {
         this.errorDocsRootPath = path.join(rootPath, 'public/html/error/');
     }
 
+    // eslint-disable-next-line no-unused-vars
     handleNotFound = (req, res, next) => {
         res.status(404);
         res.sendFile('404.html', {root: this.errorDocsRootPath});
     }
 
+    // eslint-disable-next-line no-unused-vars
     handleServerError = (err, req, res, next) => {
         fs.readFile(`${this.errorDocsRootPath}500.html`, 'utf8', (error, data) => {
             res.status(500);
