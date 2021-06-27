@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cheerio": "*",
     "express": "^4.17.1",
     "moment": "^2.29.1",
     "nedb-promise": "^2.0.1",

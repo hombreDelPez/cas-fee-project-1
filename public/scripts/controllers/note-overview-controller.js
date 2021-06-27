@@ -5,7 +5,7 @@ import {MarkupGenerator} from '../utils/markup-generator.js';
 const createNoteButton = document.querySelector('.header-buttons__create');
 
 function handleCreateNoteEvent() {
-    window.location.href = 'note-detail.html';
+    window.location.href = 'create';
 }
 
 // Manipulate Note (common)
@@ -36,7 +36,7 @@ function getNoteIdFromChildElem(elem) {
 
 // Edit Note
 function editNote(clickedElem) {
-    window.location.href = `note-detail.html?id=${getNoteIdFromChildElem(clickedElem)}`;
+    window.location.href = `edit?id=${getNoteIdFromChildElem(clickedElem)}`;
 }
 
 // Finish Note
