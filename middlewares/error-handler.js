@@ -1,22 +1,32 @@
 import path from 'path';
+import fs from 'fs';
+import * as cheerio from 'cheerio';
 
 export class ErrorHandler {
-    // eslint-disable-next-line arrow-body-style
-    handleNotFound = (rootPath) => {
-        // eslint-disable-next-line no-unused-vars
-        return (req, res, next) => {
-            res.status(404);
-            res.sendFile('html/error/404.html', {root: path.join(rootPath, '/public/')});
-        };
-    };
+    constructor() {
+        const rootPath = path.resolve();
+        this.errorDocsRootPath = path.join(rootPath, 'public/html/error/');
+    }
 
-    // eslint-disable-next-line arrow-body-style
-    handleServerError = (rootPath) => {
-        // eslint-disable-next-line no-unused-vars
-        return (err, req, res, next) => {
+    handleNotFound = (req, res, next) => {
+        res.status(404);
+        res.sendFile('404.html', {root: this.errorDocsRootPath});
+    }
+
+    handleServerError = (err, req, res, next) => {
+        fs.readFile(`${this.errorDocsRootPath}500.html`, 'utf8', (error, data) => {
             res.status(500);
-            res.sendFile('html/error/500.html', {root: path.join(rootPath, '/public/')});
-        };
+
+            if (error) {
+                res.sendFile('500.html', {root: this.errorDocsRootPath});
+            }
+
+            const doc = cheerio.load(data);
+            doc('div.error > p').text(err);
+
+            res.set('Content-Type', 'text/html');
+            res.send(doc.html());
+        });
     };
 }
 

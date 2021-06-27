@@ -7,6 +7,7 @@
     --button-color: #5792d9;
     --active-color: #57d5d9;
     --font-color: #112d4e;
+    --warn-color: #f53c32;
 }
 
 .dark-theme {
@@ -182,7 +183,7 @@ footer {
 }
 
 #delete-note:hover {
-    background-color: #f53c32;
+    background-color: var(--warn-color);
 }
 
 .note__description textarea {
@@ -258,4 +259,9 @@ button[type=submit] {
 #importance > input:checked ~ label::before {
     content: "\2605";
     font-size: 1.3em;
+}
+
+/* Error Pages */
+.error {
+    color: var(--warn-color);
 }

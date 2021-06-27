@@ -5,20 +5,20 @@ import * as cheerio from 'cheerio';
 export class DocController {
     constructor() {
         const rootPath = path.resolve();
-        this.publicRootPath = path.join(rootPath, 'public/');
+        this.docRootPath = path.join(rootPath, 'public/html/');
     }
 
     getIndexDocument = async (req, res) => {
-        res.sendFile('html/index.html', {root: this.publicRootPath});
+        res.sendFile('index.html', {root: this.docRootPath});
     }
 
     getCreateDocument = (req, res) => {
-        fs.readFile(`${this.publicRootPath}html/note-detail.html`, 'utf8',
+        fs.readFile(`${this.docRootPath}note-detail.html`, 'utf8',
             DocController.readFileCallback('Create Note ', 'Create a new Note', req, res));
     }
 
     getEditDocument = (req, res) => {
-        fs.readFile(`${this.publicRootPath}html/note-detail.html`, 'utf8',
+        fs.readFile(`${this.docRootPath}note-detail.html`, 'utf8',
             DocController.readFileCallback('Edit Note ', 'Edit an existing Note', req, res));
     }
 
